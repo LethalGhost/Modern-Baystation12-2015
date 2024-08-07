@@ -1,54 +1,40 @@
+var/global/list/rkeys = list(
+	"à" = "f", "â" = "d", "ã" = "u", "ä" = "l",
+	"å" = "t", "ç" = "p", "è" = "b", "é" = "q",
+	"ê" = "r", "ë" = "k", "ì" = "v", "í" = "y",
+	"î" = "j", "ï" = "g", "ð" = "h", "ñ" = "c",
+	"ò" = "n", "ó" = "e", "ô" = "a", "ö" = "w",
+	"÷" = "x", "ø" = "i", "ù" = "o", "û" = "s",
+	"ü" = "m", "ÿ" = "z"
+)
+
+//Transform keys from russian keyboard layout to eng analogues and lowertext it.
+/proc/sanitize_key(t)
+	t = lowertext(t)
+	return (t in rkeys)?rkeys[t]:t
+
+
 var/list/department_radio_keys = list(
-	  ":r" = "right ear",	"#r" = "right ear",		".r" = "right ear",
-	  ":l" = "left ear",	"#l" = "left ear",		".l" = "left ear",
-	  ":i" = "intercom",	"#i" = "intercom",		".i" = "intercom",
-	  ":h" = "department",	"#h" = "department",	".h" = "department",
-	  ":+" = "special",		"#+" = "special",		".+" = "special", //activate radio-specific special functions
-	  ":c" = "Command",		"#c" = "Command",		".c" = "Command",
-	  ":n" = "Science",		"#n" = "Science",		".n" = "Science",
-	  ":m" = "Medical",		"#m" = "Medical",		".m" = "Medical",
-	  ":e" = "Engineering", "#e" = "Engineering",	".e" = "Engineering",
-	  ":s" = "Security",	"#s" = "Security",		".s" = "Security",
-	  ":w" = "whisper",		"#w" = "whisper",		".w" = "whisper",
-	  ":t" = "Mercenary",	"#t" = "Mercenary",		".t" = "Mercenary",
-	  ":u" = "Supply",		"#u" = "Supply",		".u" = "Supply",
-	  ":v" = "Service",		"#v" = "Service",		".v" = "Service",
-	  ":p" = "AI Private",	"#p" = "AI Private",	".p" = "AI Private",
-
-	  ":R" = "right ear",	"#R" = "right ear",		".R" = "right ear",
-	  ":L" = "left ear",	"#L" = "left ear",		".L" = "left ear",
-	  ":I" = "intercom",	"#I" = "intercom",		".I" = "intercom",
-	  ":H" = "department",	"#H" = "department",	".H" = "department",
-	  ":C" = "Command",		"#C" = "Command",		".C" = "Command",
-	  ":N" = "Science",		"#N" = "Science",		".N" = "Science",
-	  ":M" = "Medical",		"#M" = "Medical",		".M" = "Medical",
-	  ":E" = "Engineering",	"#E" = "Engineering",	".E" = "Engineering",
-	  ":S" = "Security",	"#S" = "Security",		".S" = "Security",
-	  ":W" = "whisper",		"#W" = "whisper",		".W" = "whisper",
-	  ":T" = "Mercenary",	"#T" = "Mercenary",		".T" = "Mercenary",
-	  ":U" = "Supply",		"#U" = "Supply",		".U" = "Supply",
-	  ":V" = "Service",		"#V" = "Service",		".V" = "Service",
-	  ":P" = "AI Private",	"#P" = "AI Private",	".P" = "AI Private",
-
-	  //kinda localization -- rastaf0
-	  //same keys as above, but on russian keyboard layout. This file uses cp1251 as encoding.
-	  ":ê" = "right ear",	"#ê" = "right ear",		".ê" = "right ear",
-	  ":ä" = "left ear",	"#ä" = "left ear",		".ä" = "left ear",
-	  ":ø" = "intercom",	"#ø" = "intercom",		".ø" = "intercom",
-	  ":ð" = "department",	"#ð" = "department",	".ð" = "department",
-	  ":ñ" = "Command",		"#ñ" = "Command",		".ñ" = "Command",
-	  ":ò" = "Science",		"#ò" = "Science",		".ò" = "Science",
-	  ":ü" = "Medical",		"#ü" = "Medical",		".ü" = "Medical",
-	  ":ó" = "Engineering",	"#ó" = "Engineering",	".ó" = "Engineering",
-	  ":û" = "Security",	"#û" = "Security",		".û" = "Security",
-	  ":ö" = "whisper",		"#ö" = "whisper",		".ö" = "whisper",
-	  ":å" = "Mercenary",	"#å" = "Mercenary",		".å" = "Mercenary",
-	  ":é" = "Supply",		"#é" = "Supply",		".é" = "Supply",
+	"r" = "right ear",
+	"l" = "left ear",
+	"i" = "intercom",
+	"h" = "department",
+	"+" = "special",	//activate radio-specific special functions
+	"c" = "Command",
+	"n" = "Science",
+	"m" = "Medical",
+	"e" = "Engineering",
+	"s" = "Security",
+	"w" = "whisper",
+	"t" = "Mercenary",
+	"u" = "Supply",
+	"v" = "Service",
+	"p" = "AI Private"
 )
 
 
 var/list/channel_to_radio_key = new
-proc/get_radio_key_from_channel(var/channel)
+/proc/get_radio_key_from_channel(var/channel)
 	var/key = channel_to_radio_key[channel]
 	if(!key)
 		for(var/radio_key in department_radio_keys)
@@ -61,35 +47,58 @@ proc/get_radio_key_from_channel(var/channel)
 
 	return key
 
+//parses the message mode code (e.g. :h, :w) from text, such as that supplied to say.
+//returns the message mode string or null for no message mode.
+//standard mode is the mode returned for the special ';' radio code.
+/mob/living/proc/parse_message_mode(var/message, var/standard_mode="headset")
+	if(length_char(message) >= 1 && message[1] == ";")
+		return standard_mode
+
+	//if(length(message) >= 2 && message[1] in list(":", ".", "#"))
+	if(length_char(message) >= 2 && message[1] == ":")
+		var/channel_prefix = sanitize_key(copytext_char(message,2,3))
+		return department_radio_keys[channel_prefix]
+
+	return null
+
+//parses the language code (e.g. :j) from text, such as that supplied to say.
+//returns the language object only if the code corresponds to a language that src can speak, otherwise null.
+/mob/living/proc/parse_language(var/message)
+	var/message_length = length_char(message)
+	if(message_length >= 1 && message[1] == "!")
+		return all_languages["Noise"]
+
+	if(message_length >= 2)
+		var/language_prefix = sanitize_key(copytext_char(message,2,3))
+		var/datum/language/L = language_keys[language_prefix]
+		if (can_speak(L))
+			return L
+
+
 /mob/living/proc/binarycheck()
 
-	if (istype(src, /mob/living/silicon/pai))
-		return
+	if(ispAI(src))
+		return TRUE
 
-	if (!ishuman(src))
-		return
+	if(!ishuman(src))
+		return FALSE
 
 	var/mob/living/carbon/human/H = src
-	if (H.l_ear || H.r_ear)
-		var/obj/item/device/radio/headset/dongle
-		if(istype(H.l_ear,/obj/item/device/radio/headset))
-			dongle = H.l_ear
-		else
-			dongle = H.r_ear
-		if(!istype(dongle)) return
-		if(dongle.translate_binary) return 1
+	for(var/obj/item/device/radio/headset/dongle in list(H.l_ear || H.r_ear))
+		if(istype(dongle) && dongle.translate_binary)
+			return TRUE
 
 /mob/living/proc/get_default_language()
 	return default_language
 
 /mob/living/proc/is_muzzled()
-	return 0
+	return FALSE
 
 /mob/living/proc/handle_speech_problems(var/message, var/verb)
 	var/list/returns[3]
 	var/speech_problem_flag = 0
 
-	if((HULK in mutations) && health >= 25 && length(message))
+	if((HULK in mutations) && health >= 25 && length_char(message))
 		message = "[uppertext(message)]!!!"
 		verb = pick("yells","roars","hollers")
 		speech_problem_flag = 1
@@ -112,7 +121,7 @@ proc/get_radio_key_from_channel(var/channel)
 		for(var/obj/item/device/radio/intercom/I in view(1, null))
 			I.talk_into(src, message, verb, speaking)
 			used_radios += I
-	return 0
+	return FALSE
 
 /mob/living/proc/handle_speech_sound()
 	var/list/returns[2]
@@ -130,16 +139,16 @@ proc/get_radio_key_from_channel(var/channel)
 /mob/living/say(var/message, var/datum/language/speaking = null, var/verb="says", var/alt_name="")
 	if(client)
 		if(client.prefs.muted & MUTE_IC)
-			src << "\red You cannot speak in IC (Muted)."
+			src << SPAN_WARN("You cannot speak in IC (Muted).")
 			return
 
 	if(stat)
-		if(stat == 2)
+		if(stat == DEAD)
 			return say_dead(message)
 		return
 
 	if(is_muzzled())
-		src << "<span class='danger'>You're muzzled and cannot speak!</span>"
+		src << SPAN_DANGER("You're muzzled and cannot speak!")
 		return
 
 	var/message_mode = parse_message_mode(message, "headset")
@@ -151,9 +160,9 @@ proc/get_radio_key_from_channel(var/channel)
 	//parse the radio code and consume it
 	if (message_mode)
 		if (message_mode == "headset")
-			message = copytext_char(message,2)	//it would be really nice if the parse procs could do this for us.
+			message = copytext_char(message, 2)	//it would be really nice if the parse procs could do this for us.
 		else
-			message = copytext_char(message,3)
+			message = copytext_char(message, 3)
 
 	message = trim_left(message)
 
@@ -161,11 +170,11 @@ proc/get_radio_key_from_channel(var/channel)
 	if(!speaking)
 		speaking = parse_language(message)
 	if(speaking)
-		message = copytext_char(message,2+length(speaking.key))
+		message = copytext_char(message,2+length_char(speaking.key))
 	else
 		speaking = get_default_language()
 
-	var/ending = copytext_char(message, length(message))
+	var/ending = copytext_char(message, length_char(message))
 	if (speaking)
 		// This is broadcast to all mobs with the language,
 		// irrespective of distance or anything else.
@@ -206,7 +215,7 @@ proc/get_radio_key_from_channel(var/channel)
 			message_range = speaking.get_talkinto_msg_range(message)
 		var/msg
 		if(!speaking || !(speaking.flags & NO_TALK_MSG))
-			msg = "<span class='notice'>\The [src] talks into \the [used_radios[1]]</span>"
+			msg = SPAN_NOTE("The [src] talks into \the [used_radios[1]].")
 		for(var/mob/living/M in hearers(5, src))
 			if((M != src) && msg)
 				M.show_message(msg)
@@ -275,12 +284,12 @@ proc/get_radio_key_from_channel(var/channel)
 				O.hear_talk(src, message, verb, speaking)
 
 	log_say("[name]/[key] : [message]")
-	return 1
+	return TRUE
 
 /mob/living/proc/say_signlang(var/message, var/verb="gestures", var/datum/language/language)
 	for (var/mob/O in viewers(src, null))
 		O.hear_signlang(message, verb, language, src)
-	return 1
+	return TRUE
 
 /obj/effect/speech_bubble
 	var/mob/parent
