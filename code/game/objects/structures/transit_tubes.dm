@@ -367,7 +367,7 @@ obj/structure/ex_act(severity)
 //  currently on.
 /obj/structure/transit_tube_pod/proc/mix_air()
 	var/datum/gas_mixture/environment = loc.return_air()
-	
+
 	//note that share_ratio assumes both gas mixes have the same volume,
 	//so if the volume is changed this may need to be changed as well.
 	air_contents.share_ratio(environment, 1)
@@ -426,7 +426,7 @@ obj/structure/ex_act(severity)
 	else
 		tube_dirs = parse_dirs(icon_state)
 
-		if(copytext(icon_state, 1, 3) == "D-" || findtextEx(icon_state, "Pass"))
+		if(copytext_char(icon_state, 1, 3) == "D-" || findtextEx(icon_state, "Pass"))
 			density = 0
 
 

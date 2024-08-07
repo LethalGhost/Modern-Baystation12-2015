@@ -30,13 +30,13 @@ var/global/list/navbeacons			// no I don't like putting this in, but it will do 
 
 		var/turf/T = loc
 		hide(T.intact)
-		
+
 		// add beacon to MULE bot beacon list
 		if(freq == 1400)
 			if(!navbeacons)
 				navbeacons = new()
 			navbeacons += src
-			
+
 
 		spawn(5)	// must wait for map loading to finish
 			if(radio_controller)
@@ -54,8 +54,8 @@ var/global/list/navbeacons			// no I don't like putting this in, but it will do 
 		for(var/e in entries)
 			var/index = findtext(e, "=")		// format is "key=value"
 			if(index)
-				var/key = copytext(e, 1, index)
-				var/val = copytext(e, index+1)
+				var/key = copytext_char(e, 1, index)
+				var/val = copytext_char(e, index+1)
 				codes[key] = val
 			else
 				codes[e] = "1"

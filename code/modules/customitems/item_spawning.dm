@@ -49,13 +49,13 @@
 			item.icon = CUSTOM_ITEM_OBJ
 			item.icon_state = item_icon
 			return
-		else 
+		else
 			if(inherit_inhands)
 				apply_inherit_inhands(item)
 			else
 				item.item_state_slots = null
 				item.item_icons = null
-			
+
 			item.icon = CUSTOM_ITEM_OBJ
 			item.icon_state = item_icon
 			item.item_state = null
@@ -81,9 +81,9 @@
 /datum/custom_item/proc/apply_inherit_inhands(var/obj/item/item)
 	var/list/new_item_icons = list()
 	var/list/new_item_state_slots = list()
-	
+
 	var/list/available_states = icon_states(CUSTOM_ITEM_MOB)
-	
+
 	//If l_hand or r_hand are not present, preserve them using item_icons/item_state_slots
 	//Then use icon_override to make every other slot use the custom sprites by default.
 	//This has to be done before we touch any of item's vars
@@ -93,7 +93,7 @@
 	if(!("[item_icon]_r" in available_states))
 		new_item_state_slots[slot_r_hand_str] = get_state(item, slot_r_hand_str, "_r")
 		new_item_icons[slot_r_hand_str] = get_icon(item, slot_r_hand_str, 'icons/mob/items/righthand.dmi')
-	
+
 	item.item_state_slots = new_item_state_slots
 	item.item_icons = new_item_icons
 
@@ -142,8 +142,8 @@
 		var/split = findtext(line,":")
 		if(!split)
 			continue
-		var/field = trim(copytext(line,1,split))
-		var/field_data = trim(copytext(line,(split+1)))
+		var/field = trim(copytext_char(line,1,split))
+		var/field_data = trim(copytext_char(line,(split+1)))
 		if(!field || !field_data)
 			continue
 

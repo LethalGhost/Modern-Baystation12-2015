@@ -3,7 +3,7 @@
 	var/string
 
 	if (blocknumber > 1)
-		string = copytext(input,1,((blocksize*blocknumber)-(blocksize-1)))
+		string = copytext_char(input,1,((blocksize*blocknumber)-(blocksize-1)))
 		return string
 	else
 		return null
@@ -11,7 +11,7 @@
 /proc/getrightblocks(input,blocknumber,blocksize)
 	var/string
 	if (blocknumber < (length(input)/blocksize))
-		string = copytext(input,blocksize*blocknumber+1,length(input)+1)
+		string = copytext_char(input,blocksize*blocknumber+1,length(input)+1)
 		return string
 	else
 		return null
@@ -27,12 +27,12 @@
 		var/pushstring
 
 		if(subpos == subblock && blockpos == block) // if the current block/subblock is selected, mark it
-			pushstring = "</font color><b>[copytext(input, i, i+1)]</b><font color='blue'>"
+			pushstring = "</font color><b>[copytext_char(input, i, i+1)]</b><font color='blue'>"
 		else
 			if(ui) //This is for allowing block clicks to be differentiated
-				pushstring = "<a href='?src=\ref[src];uimenuset=[num2text(blockpos)];uimenusubset=[num2text(subpos)]'>[copytext(input, i, i+1)]</a>"
+				pushstring = "<a href='?src=\ref[src];uimenuset=[num2text(blockpos)];uimenusubset=[num2text(subpos)]'>[copytext_char(input, i, i+1)]</a>"
 			else
-				pushstring = "<a href='?src=\ref[src];semenuset=[num2text(blockpos)];semenusubset=[num2text(subpos)]'>[copytext(input, i, i+1)]</a>"
+				pushstring = "<a href='?src=\ref[src];semenuset=[num2text(blockpos)];semenusubset=[num2text(subpos)]'>[copytext_char(input, i, i+1)]</a>"
 
 		string += pushstring // push the string to the return string
 
@@ -48,14 +48,14 @@
 
 /proc/getblock(input,blocknumber,blocksize)
 	var/result
-	result = copytext(input ,(blocksize*blocknumber)-(blocksize-1),(blocksize*blocknumber)+1)
+	result = copytext_char(input ,(blocksize*blocknumber)-(blocksize-1),(blocksize*blocknumber)+1)
 	return result
 
 /proc/getblockbuffer(input,blocknumber,blocksize)
 	var/result[3]
-	var/block = copytext(input ,(blocksize*blocknumber)-(blocksize-1),(blocksize*blocknumber)+1)
+	var/block = copytext_char(input ,(blocksize*blocknumber)-(blocksize-1),(blocksize*blocknumber)+1)
 	for(var/i = 1, i <= 3, i++)
-		result[i] = copytext(block, i, i+1)
+		result[i] = copytext_char(block, i, i+1)
 	return result
 
 /proc/setblock(istring, blocknumber, replacement, blocksize)
@@ -71,7 +71,7 @@
 		t = "0[t]"
 	temp1 = t
 	if (length(t) > u)
-		temp1 = copytext(t,2,u+1)
+		temp1 = copytext_char(t,2,u+1)
 	return temp1
 
 /proc/miniscramble(input,rs,rd)
@@ -459,7 +459,7 @@
 			O.loc = C
 			C.occupant = O
 			connected = null
-		O.real_name = text("monkey ([])",copytext(md5(M.real_name), 2, 6))
+		O.real_name = text("monkey ([])",copytext_char(md5(M.real_name), 2, 6))
 		O.take_overall_damage(M.getBruteLoss() + 40, M.getFireLoss())
 		O.adjustToxLoss(M.getToxLoss() + 20)
 		O.adjustOxyLoss(M.getOxyLoss())

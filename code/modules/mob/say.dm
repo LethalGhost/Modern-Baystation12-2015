@@ -14,8 +14,8 @@
 		return
 	//Let's try to make users fix their errors - we try to detect single, out-of-place letters and 'unintended' words
 	/*
-	var/first_letter = copytext(message,1,2)
-	if((copytext(message,2,3) == " " && first_letter != "I" && first_letter != "A" && first_letter != ";") || cmptext(copytext(message,1,5), "say ") || cmptext(copytext(message,1,4), "me ") || cmptext(copytext(message,1,6), "looc ") || cmptext(copytext(message,1,5), "ooc ") || cmptext(copytext(message,2,6), "say "))
+	var/first_letter = copytext_char(message,1,2)
+	if((copytext_char(message,2,3) == " " && first_letter != "I" && first_letter != "A" && first_letter != ";") || cmptext(copytext_char(message,1,5), "say ") || cmptext(copytext_char(message,1,4), "me ") || cmptext(copytext_char(message,1,6), "looc ") || cmptext(copytext_char(message,1,5), "ooc ") || cmptext(copytext_char(message,2,6), "say "))
 		var/response = alert(usr, "Do you really want to say this using the *say* verb?\n\n[message]\n", "Confirm your message", "Yes", "Edit message", "No")
 		if(response == "Edit message")
 			message = input(usr, "Please edit your message carefully:", "Edit message", message)
@@ -102,7 +102,7 @@
 
 /mob/proc/say_quote(var/message, var/datum/language/speaking = null)
         var/verb = "says"
-        var/ending = copytext(message, length(message))
+        var/ending = copytext_char(message, length(message))
         if(ending=="!")
                 verb=pick("exclaims","shouts","yells")
         else if(ending=="?")
@@ -124,7 +124,7 @@
 	return get_turf(src)
 
 /mob/proc/say_test(var/text)
-	var/ending = copytext(text, length(text))
+	var/ending = copytext_char(text, length(text))
 	if (ending == "?")
 		return "1"
 	else if (ending == "!")
@@ -135,11 +135,11 @@
 //returns the message mode string or null for no message mode.
 //standard mode is the mode returned for the special ';' radio code.
 /mob/proc/parse_message_mode(var/message, var/standard_mode="headset")
-	if(length(message) >= 1 && copytext(message,1,2) == ";")
+	if(length(message) >= 1 && copytext_char(message,1,2) == ";")
 		return standard_mode
 
 	if(length(message) >= 2)
-		var/channel_prefix = copytext(message, 1 ,3)
+		var/channel_prefix = copytext_char(message, 1 ,3)
 		return department_radio_keys[channel_prefix]
 
 	return null
@@ -147,11 +147,11 @@
 //parses the language code (e.g. :j) from text, such as that supplied to say.
 //returns the language object only if the code corresponds to a language that src can speak, otherwise null.
 /mob/proc/parse_language(var/message)
-	if(length(message) >= 1 && copytext(message,1,2) == "!")
+	if(length(message) >= 1 && copytext_char(message,1,2) == "!")
 		return all_languages["Noise"]
 
 	if(length(message) >= 2)
-		var/language_prefix = lowertext(copytext(message, 1 ,3))
+		var/language_prefix = lowertext(copytext_char(message, 1 ,3))
 		var/datum/language/L = language_keys[language_prefix]
 		if (can_speak(L))
 			return L

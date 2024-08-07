@@ -28,7 +28,7 @@ THAT STUPID GAME KIT
 
 		for (var/x = 1 to 8)
 			var/color = (y + x) % 2 ? "#ffffff" : "#999999"
-			var/piece = copytext(src.board_stat, ((y - 1) * 8 + x) * 2 - 1, ((y - 1) * 8 + x) * 2 + 1)
+			var/piece = copytext_char(src.board_stat, ((y - 1) * 8 + x) * 2 - 1, ((y - 1) * 8 + x) * 2 + 1)
 
 			dat += "<td>"
 			dat += "<td style='background-color:[color]' width=32 height=32>"
@@ -85,53 +85,53 @@ THAT STUPID GAME KIT
 			if (!( src.selected ))
 				src.selected = href_list["s_board"]
 			else
-				var/tx = text2num(copytext(href_list["s_board"], 1, 2))
-				var/ty = text2num(copytext(href_list["s_board"], 3, 4))
-				if ((copytext(src.selected, 2, 3) == " " && length(src.selected) == 3))
-					var/sx = text2num(copytext(src.selected, 1, 2))
-					var/sy = text2num(copytext(src.selected, 3, 4))
+				var/tx = text2num(copytext_char(href_list["s_board"], 1, 2))
+				var/ty = text2num(copytext_char(href_list["s_board"], 3, 4))
+				if ((copytext_char(src.selected, 2, 3) == " " && length(src.selected) == 3))
+					var/sx = text2num(copytext_char(src.selected, 1, 2))
+					var/sy = text2num(copytext_char(src.selected, 3, 4))
 					var/place = ((sy - 1) * 8 + sx) * 2 - 1
-					src.selected = copytext(src.board_stat, place, place + 2)
+					src.selected = copytext_char(src.board_stat, place, place + 2)
 					if (place == 1)
-						src.board_stat = text("BB[]", copytext(src.board_stat, 3, 129))
+						src.board_stat = text("BB[]", copytext_char(src.board_stat, 3, 129))
 					else
 						if (place == 127)
-							src.board_stat = text("[]BB", copytext(src.board_stat, 1, 127))
+							src.board_stat = text("[]BB", copytext_char(src.board_stat, 1, 127))
 						else
 							if (place)
-								src.board_stat = text("[]BB[]", copytext(src.board_stat, 1, place), copytext(src.board_stat, place + 2, 129))
+								src.board_stat = text("[]BB[]", copytext_char(src.board_stat, 1, place), copytext_char(src.board_stat, place + 2, 129))
 					place = ((ty - 1) * 8 + tx) * 2 - 1
 					if (place == 1)
-						src.board_stat = text("[][]", src.selected, copytext(src.board_stat, 3, 129))
+						src.board_stat = text("[][]", src.selected, copytext_char(src.board_stat, 3, 129))
 					else
 						if (place == 127)
-							src.board_stat = text("[][]", copytext(src.board_stat, 1, 127), src.selected)
+							src.board_stat = text("[][]", copytext_char(src.board_stat, 1, 127), src.selected)
 						else
 							if (place)
-								src.board_stat = text("[][][]", copytext(src.board_stat, 1, place), src.selected, copytext(src.board_stat, place + 2, 129))
+								src.board_stat = text("[][][]", copytext_char(src.board_stat, 1, place), src.selected, copytext_char(src.board_stat, place + 2, 129))
 					src.selected = null
 				else
 					if (src.selected == "remove")
 						var/place = ((ty - 1) * 8 + tx) * 2 - 1
 						if (place == 1)
-							src.board_stat = text("BB[]", copytext(src.board_stat, 3, 129))
+							src.board_stat = text("BB[]", copytext_char(src.board_stat, 3, 129))
 						else
 							if (place == 127)
-								src.board_stat = text("[]BB", copytext(src.board_stat, 1, 127))
+								src.board_stat = text("[]BB", copytext_char(src.board_stat, 1, 127))
 							else
 								if (place)
-									src.board_stat = text("[]BB[]", copytext(src.board_stat, 1, place), copytext(src.board_stat, place + 2, 129))
+									src.board_stat = text("[]BB[]", copytext_char(src.board_stat, 1, place), copytext_char(src.board_stat, place + 2, 129))
 					else
 						if (length(src.selected) == 2)
 							var/place = ((ty - 1) * 8 + tx) * 2 - 1
 							if (place == 1)
-								src.board_stat = text("[][]", src.selected, copytext(src.board_stat, 3, 129))
+								src.board_stat = text("[][]", src.selected, copytext_char(src.board_stat, 3, 129))
 							else
 								if (place == 127)
-									src.board_stat = text("[][]", copytext(src.board_stat, 1, 127), src.selected)
+									src.board_stat = text("[][]", copytext_char(src.board_stat, 1, 127), src.selected)
 								else
 									if (place)
-										src.board_stat = text("[][][]", copytext(src.board_stat, 1, place), src.selected, copytext(src.board_stat, place + 2, 129))
+										src.board_stat = text("[][][]", copytext_char(src.board_stat, 1, place), src.selected, copytext_char(src.board_stat, place + 2, 129))
 		src.add_fingerprint(usr)
 		update()
 		for(var/mob/M in viewers(1, src))
