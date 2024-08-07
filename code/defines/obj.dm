@@ -171,7 +171,7 @@
 /proc/make_list_rank(rank)
 	for(var/prefix in acting_rank_prefixes)
 		if(findtext(rank, "[prefix] ", 1, 2+length(prefix)))
-			return copytext(rank, 2+length(prefix))
+			return copytext_char(rank, 2+length(prefix))
 	return rank
 
 

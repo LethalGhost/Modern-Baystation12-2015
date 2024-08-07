@@ -14,7 +14,7 @@
 		for(var/ckey in preferences_datums)
 			var/datum/preferences/D = preferences_datums[ckey]
 			if(D == src)
-				var/delpath = "data/player_saves/[copytext(ckey,1,2)]/[ckey]/"
+				var/delpath = "data/player_saves/[copytext_char(ckey,1,2)]/[ckey]/"
 				if(delpath && fexists(delpath))
 					fdel(delpath)
 				break
@@ -28,7 +28,7 @@
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)	return
-	path = "data/player_saves/[copytext(ckey,1,2)]/[ckey]/[filename]"
+	path = "data/player_saves/[copytext_char(ckey,1,2)]/[ckey]/[filename]"
 	savefile_version = SAVEFILE_VERSION_MAX
 
 /datum/preferences/proc/load_preferences()

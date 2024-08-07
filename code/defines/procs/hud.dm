@@ -64,7 +64,7 @@ proc/can_process_hud(var/mob/M)
 mob/proc/regular_hud_updates() //Used in the life.dm of mobs that can use HUDs.
 	if(client)
 		for(var/image/hud in client.images)
-			if(copytext(hud.icon_state,1,4) == "hud")
+			if(copytext_char(hud.icon_state,1,4) == "hud")
 				client.images -= hud
 	med_hud_users -= src
 	sec_hud_users -= src

@@ -46,7 +46,7 @@ json_writer
 					if(!i)
 						break
 					var/lrep = length(json_escape[targ])
-					txt = copytext(txt, 1, i) + json_escape[targ] + copytext(txt, i + length(targ))
+					txt = copytext_char(txt, 1, i) + json_escape[targ] + copytext_char(txt, i + length(targ))
 					start = i + lrep
 
 			return {""[txt]""}

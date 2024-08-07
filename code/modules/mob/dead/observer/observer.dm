@@ -117,7 +117,7 @@ Works together with spawning an observer, noted above.
 
 	if(client.images.len)
 		for(var/image/hud in client.images)
-			if(copytext(hud.icon_state,1,4) == "hud")
+			if(copytext_char(hud.icon_state,1,4) == "hud")
 				client.images.Remove(hud)
 
 	if(antagHUD)
@@ -203,7 +203,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(!(mind && mind.current && can_reenter_corpse))
 		src << "<span class='warning'>You have no body.</span>"
 		return
-	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
+	if(mind.current.key && copytext_char(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		usr << "<span class='warning'>Another consciousness is in your body... it is resisting you.</span>"
 		return
 	if(mind.current.ajourn && mind.current.stat != DEAD) //check if the corpse is astral-journeying (it's client ghosted using a cultist rune).

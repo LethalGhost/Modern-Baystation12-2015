@@ -64,8 +64,8 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 /obj/machinery/computer/rdconsole/proc/CallMaterialName(var/ID)
 	var/datum/reagent/temp_reagent
 	var/return_name = null
-	if (copytext(ID, 1, 2) == "$")
-		return_name = copytext(ID, 2)
+	if (copytext_char(ID, 1, 2) == "$")
+		return_name = copytext_char(ID, 2)
 		switch(return_name)
 			if(DEFAULT_WALL_MATERIAL)
 				return_name = "Steel"
@@ -683,7 +683,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					if(AUTOLATHE) dat += "Lathe Type: Auto-lathe<BR>"
 				dat += "Required Materials:<BR>"
 				for(var/M in d_disk.blueprint.materials)
-					if(copytext(M, 1, 2) == "$") dat += "* [copytext(M, 2)] x [d_disk.blueprint.materials[M]]<BR>"
+					if(copytext_char(M, 1, 2) == "$") dat += "* [copytext_char(M, 2)] x [d_disk.blueprint.materials[M]]<BR>"
 					else dat += "* [M] x [d_disk.blueprint.materials[M]]<BR>"
 				dat += "<HR>Operations: "
 				dat += "<A href='?src=\ref[src];updt_design=1'>Upload to Database</A> || "
@@ -782,7 +782,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				var/check_materials = 1
 				for(var/M in D.materials)
 					temp_dat += ", [D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]"
-					if(copytext(M, 1, 2) == "$")
+					if(copytext_char(M, 1, 2) == "$")
 						switch(M)
 							if("$glass")
 								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.g_amount) check_materials = 0
@@ -801,7 +801,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					else if (!linked_lathe.reagents.has_reagent(M, D.materials[M]*linked_lathe.mat_efficiency))
 						check_materials = 0
 				if(temp_dat)
-					temp_dat = " \[[copytext(temp_dat,3)]\]"
+					temp_dat = " \[[copytext_char(temp_dat,3)]\]"
 				if(check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];build=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
@@ -878,7 +878,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				var/check_materials = 1
 				for(var/M in D.materials)
 					temp_dat += ", [D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]"
-					if(copytext(M, 1, 2) == "$")
+					if(copytext_char(M, 1, 2) == "$")
 						switch(M)
 							if("$glass")
 								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.g_amount) check_materials = 0
@@ -891,7 +891,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					else if (!linked_imprinter.reagents.has_reagent(M, D.materials[M]*linked_imprinter.mat_efficiency))
 						check_materials = 0
 				if(temp_dat)
-					temp_dat = " \[[copytext(temp_dat,3)]\]"
+					temp_dat = " \[[copytext_char(temp_dat,3)]\]"
 				if (check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];imprint=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else

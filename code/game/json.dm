@@ -65,8 +65,8 @@ proc/makejson()
 			message_admins("Could not find '#include \"maps\\[oldmap].dmm\"' or '\"maps/[oldmap].dmm\"' in the bs12.dme. The mapinfo probably has an incorrect mapname var. Alternatively, could not find the .dme itself, at [dmepath].")
 			return
 
-	var/rest = copytext(text, loc + length(path))
-	text = copytext(text,1,loc)
+	var/rest = copytext_char(text, loc + length(path))
+	text = copytext_char(text,1,loc)
 	text += "\n[xpath]"
 	text += rest
 /*	for(var/A in lines)

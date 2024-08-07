@@ -1,5 +1,5 @@
 
-//list(ckey = real_name,) 
+//list(ckey = real_name,)
 //Since the ckey is used as the icon_state, the current system will only permit a single custom robot sprite per ckey.
 //While it might be possible for a ckey to use that custom sprite for several real_names, it seems rather pointless to support it.
 var/list/robot_custom_icons
@@ -14,10 +14,10 @@ var/list/robot_custom_icons
 		var/split_idx = findtext(line, "-") //this works if ckey cannot contain dashes, and findtext starts from the beginning
 		if(!split_idx || split_idx == length(line))
 			continue //bad entry
-		
-		var/ckey = copytext(line, 1, split_idx)
-		var/real_name = copytext(line, split_idx+1)
-		
+
+		var/ckey = copytext_char(line, 1, split_idx)
+		var/real_name = copytext_char(line, split_idx+1)
+
 		robot_custom_icons[ckey] = real_name
 	return 1
 

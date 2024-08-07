@@ -119,3 +119,4 @@
 	else if (ending == "!")
 		return "2"
 	return "0"
+

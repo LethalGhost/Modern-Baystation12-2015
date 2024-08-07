@@ -172,7 +172,7 @@ proc/tg_list2text(list/list, glue=",")
 
 	do
 		found       = findtext(text, delimiter, last_found, 0)
-		.          += copytext(text, last_found, found)
+		.          += copytext_char(text, last_found, found)
 		last_found  = found + delim_len
 	while (found)
 
@@ -188,7 +188,7 @@ proc/tg_list2text(list/list, glue=",")
 
 	do
 		found       = findtextEx(text, delimiter, last_found, 0)
-		.          += copytext(text, last_found, found)
+		.          += copytext_char(text, last_found, found)
 		last_found  = found + delim_len
 	while (found)
 

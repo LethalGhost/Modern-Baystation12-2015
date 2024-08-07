@@ -436,7 +436,7 @@ var/list/sacrificed = list()
 			var/chose_name = 0
 			for(var/obj/item/weapon/paper/P in this_rune.loc)
 				if(P.info)
-					D.real_name = copytext(P.info, findtext(P.info,">")+1, findtext(P.info,"<",2) )
+					D.real_name = copytext_char(P.info, findtext(P.info,">")+1, findtext(P.info,"<",2) )
 					chose_name = 1
 					break
 			D.universal_speak = 1

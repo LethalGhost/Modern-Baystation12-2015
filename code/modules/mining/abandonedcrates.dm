@@ -171,11 +171,11 @@
 /obj/structure/closet/crate/secure/loot/proc/check_input(var/input)
 	if(length(input) != codelen)
 		return 0
-	
+
 	. = 1
 	lastattempt.Cut()
 	for(var/i in 1 to codelen)
-		var/guesschar = copytext(input, i, i+1)
+		var/guesschar = copytext_char(input, i, i+1)
 		lastattempt += guesschar
 		if(guesschar != code[i])
 			. = 0
@@ -191,7 +191,7 @@
 			if(lastattempt.len)
 				var/bulls = 0
 				var/cows = 0
-				
+
 				var/list/code_contents = code.Copy()
 				for(var/i in 1 to codelen)
 					if(lastattempt[i] == code[i])

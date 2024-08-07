@@ -37,11 +37,11 @@
 	else if(forced_state != 1)
 		var/temp_loc = screen_loc
 
-		var/x_position = text2num(copytext(temp_loc, 1, findtext(temp_loc, ":")))
-		var/x_pix = text2num(copytext(temp_loc, findtext(temp_loc, ":") + 1, findtext(temp_loc, ",")))
-		temp_loc = copytext(temp_loc, findtext(temp_loc, ",") + 1)
-		var/y_position = text2num(copytext(temp_loc, 1, findtext(temp_loc, ":")))
-		var/y_pix = text2num(copytext(temp_loc, findtext(temp_loc, ":")+1))
+		var/x_position = text2num(copytext_char(temp_loc, 1, findtext(temp_loc, ":")))
+		var/x_pix = text2num(copytext_char(temp_loc, findtext(temp_loc, ":") + 1, findtext(temp_loc, ",")))
+		temp_loc = copytext_char(temp_loc, findtext(temp_loc, ",") + 1)
+		var/y_position = text2num(copytext_char(temp_loc, 1, findtext(temp_loc, ":")))
+		var/y_pix = text2num(copytext_char(temp_loc, findtext(temp_loc, ":")+1))
 
 		for(var/i = 1; i <= spell_objects.len; i++)
 			var/obj/screen/spell/S = spell_objects[i]
