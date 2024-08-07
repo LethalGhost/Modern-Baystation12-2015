@@ -582,7 +582,6 @@ obj/structure/cable/proc/cableColor(var/colorC)
 		src.use(15)
 	else
 		usr << "\blue You cannot do that."
-	..()
 
 /obj/item/stack/cable_coil/cyborg/verb/set_colour()
 	set name = "Change Colour"
